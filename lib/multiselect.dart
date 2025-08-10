@@ -29,10 +29,20 @@ class _SelectRow extends StatelessWidget {
   final bool selected;
   final String text;
 
-  const _SelectRow({Key? key, required this.onChange, required this.selected, required this.text}) : super(key: key);
+  const _SelectRow({
+    Key? key,
+    required this.onChange,
+    required this.selected,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Split text into head and sub
+    final parts = text.split(" | ");
+    final head = parts.isNotEmpty ? parts[0] : '';
+    final sub = parts.length > 1 ? parts[1] : '';
+
     return InkWell(
       onTap: () {
         onChange(!selected);
@@ -43,25 +53,40 @@ class _SelectRow extends StatelessWidget {
         child: Row(
           children: [
             Checkbox(
-                value: selected,
-                onChanged: (x) {
-                  onChange(x!);
-                  _theState.notify();
-                }),
-
-            Text(
-                                  text,
-                                  style: TextStyle(
-                                    fontSize: 10, // Normal font size
-                                   
-                                  ),
-                                ),
+              value: selected,
+              onChanged: (x) {
+                onChange(x!);
+                _theState.notify();
+              },
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  head,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (sub.isNotEmpty)
+                  Text(
+                    sub,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 
 ///
 /// A Dropdown multiselect menu
