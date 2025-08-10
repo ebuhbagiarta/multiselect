@@ -253,7 +253,7 @@ class _DropDownMultiSelectState<TState> extends State<DropDownMultiSelect<TState
             style: widget.selectedValuesStyle,
           ),
         ),
-      ));
+      )),
         ],
       ),
     );
