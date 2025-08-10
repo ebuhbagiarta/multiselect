@@ -66,7 +66,7 @@ class _SelectRow extends StatelessWidget {
                 Text(
                   head,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -74,7 +74,7 @@ class _SelectRow extends StatelessWidget {
                   Text(
                     sub,
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 11,
                       color: Colors.grey[600],
                     ),
                   ),
@@ -237,21 +237,23 @@ class _DropDownMultiSelectState<TState> extends State<DropDownMultiSelect<TState
                   .toList(),
             ),
           ),
-          _theState.rebuild(() => widget.childBuilder != null
-              ? widget.childBuilder!(widget.selectedValues)
-              : Padding(
-                  padding: widget.decoration != null
-                      ? widget.decoration!.contentPadding != null
-                          ? widget.decoration!.contentPadding!
-                          : EdgeInsets.symmetric(horizontal: 10)
-                      : EdgeInsets.symmetric(horizontal: 20),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Text(
-                      widget.selectedValues.length > 0 ? widget.selectedValues.map((e) => e.toString()).reduce((a, b) => a.toString() + ' , ' + b.toString()) : widget.whenEmpty ?? '',
-                      style: widget.selectedValuesStyle,
-                    ),
-                  ))),
+         _theState.rebuild(() => widget.childBuilder != null
+    ? widget.childBuilder!(widget.selectedValues)
+    : Padding(
+        padding: widget.decoration?.contentPadding ??
+            const EdgeInsets.symmetric(horizontal: 20),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Text(
+            widget.selectedValues.isNotEmpty
+                ? widget.selectedValues
+                    .map((e) => e.toString().split(" | ")[0]) // Only head
+                    .join(" , ")
+                : widget.whenEmpty ?? '',
+            style: widget.selectedValuesStyle,
+          ),
+        ),
+      ));
         ],
       ),
     );
